@@ -19,7 +19,8 @@ return {
 				html = { "prettier" },
 				json = { "prettier" },
 				golang = { "golines" },
-                sql = { "sql-formatter" },
+				vue = { "eslint_d", "prettier" },
+				sql = { "sql-formatter" },
 				yaml = { "prettier" },
 				markdown = { "prettier" },
 				graphql = { "prettier" },
@@ -31,6 +32,12 @@ return {
 			-- 	async = false,
 			-- 	timeout_ms = 1000,
 			-- },
+			formatters = {
+				prettier = {
+					prepend_args = { "--config-precedence", "prefer-file" },
+					require_cwd_config = true,
+				},
+			},
 		})
 
 		vim.keymap.set({ "n", "v" }, "<leader>ff", function()
