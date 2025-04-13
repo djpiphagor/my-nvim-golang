@@ -18,7 +18,20 @@ return {
 
 		local keymap = vim.keymap -- for conciseness
 
-        vim.filetype.add({extension = { templ = "templ" }})
+		vim.diagnostic.config({
+			virtual_text = {
+				source = "if_many",
+				format = function(diagnostic)
+					return string.format("%s (%s)", diagnostic.message, diagnostic.source)
+				end,
+			},
+			-- signs = true,
+			-- virtual_lines = true,
+			-- underline = true,
+			-- float = true,
+		})
+
+		vim.filetype.add({ extension = { templ = "templ" } })
 
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -117,16 +130,16 @@ return {
 					capabilities = capabilities,
 				})
 			end,
-            ["volar"] = function()
-              lspconfig.volar.setup({
-                filetypes = { "vue", "javascript", "typescript", "javascriptreact", "typescriptreact" },
-                init_options = {
-                  vue = {
-                    hybridMode = false,
-                  },
-                },
-              })
-            end,
+			["volar"] = function()
+				lspconfig.volar.setup({
+					filetypes = { "vue", "javascript", "typescript", "javascriptreact", "typescriptreact" },
+					init_options = {
+						vue = {
+							hybridMode = false,
+						},
+					},
+				})
+			end,
 			["tsserver"] = function()
 				lspconfig["tsserver"].setup({
 					capabilities = capabilities,
@@ -140,6 +153,15 @@ return {
 			["gopls"] = function()
 				lspconfig["gopls"].setup({
 					capabilities = capabilities,
+					settings = {
+						gopls = {
+							analyses = {
+								unusedparams = true,
+								shadow = true,
+								staticcheck = true,
+							},
+						},
+					},
 				})
 			end,
 			["html"] = function()

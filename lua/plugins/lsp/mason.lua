@@ -31,7 +31,7 @@ return {
 			ensure_installed = {
 				"tsserver",
 				"html",
-                "eslint_d",
+				"eslint_d",
 				"cssls",
 				"tailwindcss",
 				"svelte",
@@ -40,7 +40,7 @@ return {
 				"gopls",
 				"bufls",
 				"emmet_ls",
-                "volar",
+				"volar",
 				"prismals",
 				"pyright",
 				"templ",
@@ -57,6 +57,7 @@ return {
 				"black", -- python formatter
 				"debugpy", -- python debugger
 				"golines", -- go formatter
+				"golangci-lint", -- go linter
 				"templ",
 				"pylint", -- python linter
 				"eslint_d", -- js linter

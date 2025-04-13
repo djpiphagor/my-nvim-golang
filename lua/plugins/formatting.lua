@@ -10,12 +10,12 @@ return {
 
 		conform.setup({
 			formatters_by_ft = {
-				javascript = { "prettier" },
-				typescript = { "prettier" },
-				javascriptreact = { "prettier" },
-				typescriptreact = { "prettier" },
-				svelte = { "prettier" },
-				css = { "prettier" },
+				-- javascript = { "prettier" },
+				-- typescript = { "prettier" },
+				-- javascriptreact = { "prettier" },
+				-- typescriptreact = { "prettier" },
+				-- svelte = { "prettier" },
+				-- css = { "prettier" },
 				html = { "prettier" },
 				json = { "prettier" },
 				golang = { "golines" },
@@ -27,11 +27,11 @@ return {
 				lua = { "stylua" },
 				python = { "isort", "black" },
 			},
-			-- format_on_save = {
-			-- 	lsp_fallback = true,
-			-- 	async = false,
-			-- 	timeout_ms = 1000,
-			-- },
+			format_on_save = {
+				lsp_fallback = true,
+				async = false,
+				timeout_ms = 1000,
+			},
 			formatters = {
 				prettier = {
 					prepend_args = { "--config-precedence", "prefer-file" },
