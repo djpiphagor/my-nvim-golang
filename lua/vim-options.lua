@@ -16,6 +16,20 @@ vim.opt.termguicolors = true
 -- This keybinding uses jk as escape but don't know if like it
 vim.api.nvim_set_keymap("i", "jk", "<ESC>", { noremap = true })
 
+-- Folding
+-- vim.opt.foldmethod = "expr"
+-- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+-- vim.opt.foldlevelstart = 99 -- Start with all folds open
+vim.wo.foldmethod = "expr"
+vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.signcolumn = "yes"
+vim.opt.foldlevelstart = 99 -- Start with all folds open
+-- vim.opt.fillchars = {
+-- 	fold = " ",
+-- 	foldopen = "", -- Use a character for open folds
+-- 	foldclose = "", -- Use a character for closed folds
+-- }
+
 -- This keymap clears the search
 vim.keymap.set("n", "<leader>h", ":nohlsearch<CR>")
 vim.keymap.set("n", "<leader>ee", "oif err != nil {<CR>}<Esc>Oreturn err")
