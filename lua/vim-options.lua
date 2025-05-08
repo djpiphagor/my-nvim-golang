@@ -35,3 +35,24 @@ vim.keymap.set("n", "<leader>h", ":nohlsearch<CR>")
 vim.keymap.set("n", "<leader>ee", "oif err != nil {<CR>}<Esc>Oreturn err")
 vim.keymap.set("n", "<leader>ff", ":!gofmt -w %<CR><CR>")
 vim.keymap.set("n", "<leader>pp", ":!prettier -w %<CR><CR>") -- prettier formatter
+
+-- go run cmd
+vim.keymap.set("n", "<leader>gr", ":!go run -v .<CR>")
+
+-- go mod init cmd
+local function run_go_mod_func()
+	local mod_name = vim.fn.input("Enter a module name: ")
+	if mod_name ~= "" then
+		vim.cmd(":!go mod init " .. mod_name)
+	end
+end
+vim.keymap.set("n", "<leader>gm", run_go_mod_func, { noremap = true, silent = true })
+
+-- go build cmd
+local function run_go_build()
+	local build_name = vim.fn.input("Enter an exec file name: ")
+	if build_name ~= "" then
+		vim.cmd(":!go build -o " .. build_name .. " .")
+	end
+end
+vim.keymap.set("n", "<leader>gb", run_go_build, { noremap = true, silent = true })
