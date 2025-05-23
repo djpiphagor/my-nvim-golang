@@ -22,13 +22,32 @@ return {
 			virtual_text = {
 				source = "if_many",
 				format = function(diagnostic)
-					return string.format("%s (%s)", diagnostic.message, diagnostic.source)
+					-- return string.format("%s (%s)", diagnostic.message, diagnostic.source)
+					return string.format("%s", diagnostic.message)
 				end,
 			},
-			-- signs = true,
+			signs = true,
 			-- virtual_lines = true,
+			-- virtual_lines = { only_current_line = true },
 			-- underline = true,
 			-- float = true,
+			-- new config
+			-- right_align = false,
+			-- underline = false,
+			-- signs = false,
+			virtual_lines = false,
+			-- new new
+			-- underline = true,
+			update_in_insert = true,
+			-- virtual_text = true,
+			float = {
+				focusable = false,
+				style = "minimal",
+				border = "rounded",
+				source = "if_many",
+				header = "",
+				prefix = "",
+			},
 		})
 
 		vim.filetype.add({ extension = { templ = "templ" } })
@@ -74,8 +93,43 @@ return {
 				opts.desc = "Go to next diagnostic"
 				keymap.set("n", "]d", vim.diagnostic.goto_next, opts) -- jump to next diagnostic in buffer
 
+				local lsp_util = vim.lsp.util
+
+				local function hover_with_border()
+					local params = lsp_util.make_position_params()
+					vim.lsp.buf_request(0, "textDocument/hover", params, function(err, result, ctx)
+						if err then
+							return
+						end
+						if not (result and result.contents) then
+							return
+						end
+
+						local markdown_lines = lsp_util.convert_input_to_markdown_lines(result.contents)
+						-- markdown_lines = lsp_util.trim_empty_lines(markdown_lines)
+						markdown_lines = vim.split(table.concat(markdown_lines, "\n"), "\n", { trimempty = true })
+						if vim.tbl_isempty(markdown_lines) then
+							return
+						end
+
+						local border = {
+							{ "╭", "FloatBorder" },
+							{ "─", "FloatBorder" },
+							{ "╮", "FloatBorder" },
+							{ "│", "FloatBorder" },
+							{ "╯", "FloatBorder" },
+							{ "─", "FloatBorder" },
+							{ "╰", "FloatBorder" },
+							{ "│", "FloatBorder" },
+						}
+
+						lsp_util.open_floating_preview(markdown_lines, "markdown", { border = border })
+					end)
+				end
+
 				opts.desc = "Show documentation for what is under cursor"
-				keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
+				-- keymap.set("n", "K", vim.lsp.buf.hover, opts) -- show documentation for what is under cursor
+				keymap.set("n", "K", hover_with_border, opts) -- show documentation for what is under cursor
 
 				opts.desc = "Restart LSP"
 				keymap.set("n", "<leader>rs", ":LspRestart<CR>", opts) -- mapping to restart lsp if necessary
